@@ -5,8 +5,10 @@ import {
   PrefsContext,
   PrefsContextInterface,
   PrefsContextState,
+  PrefsContextStateInitial,
 } from "./context/prefs-context";
 import { useState } from "react";
+import { Header } from "./components/Header";
 
 const toppings: ITopping[] = [
   {
@@ -84,24 +86,27 @@ const toppings: ITopping[] = [
 ];
 
 const App: React.FC = () => {
-  const [preferences, setPreferences] = useState<PrefsContextState>({
-    veganOnly: true,
-  });
+  const [preferences, setPreferences] = useState<PrefsContextState>(
+    PrefsContextStateInitial()
+  );
 
   const setVeganOnly = (newValue: boolean) =>
     setPreferences((prev) => ({ ...prev, veganOnly: newValue }));
 
   return (
     <PrefsContext.Provider value={{ ...preferences, setVeganOnly }}>
-      <div className="container">
-        <header>
-          <div className="pizza" />
-          <h1>Build your own pizza</h1>
-        </header>
-        <main>
-          <ToppingsSelect toppings={toppings} />
-        </main>
-      </div>
+      <>
+        <Header></Header>
+        <div className="container">
+          <header>
+            <div className="pizza" />
+            <h1>Build your own pizza</h1>
+          </header>
+          <main>
+            <ToppingsSelect toppings={toppings} />
+          </main>
+        </div>
+      </>
     </PrefsContext.Provider>
   );
 };
